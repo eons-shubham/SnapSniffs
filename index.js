@@ -1,5 +1,7 @@
 import { ACCESS_KEY } from "./api.js";
 
+let pageIdx = 1;
+let oldData = "";
 
 const searchResult = document.getElementById("searchResult");
 
@@ -11,7 +13,8 @@ async function getResult(){
 }
 
 function createImageCard(data){
-    searchResult.innerHTML = ``;
+    if(pageIdx == 1) searchResult.innerHTML = ``;
+
     data.forEach((ele, idx) => {
         let cardBody = document.createElement("div");
         cardBody.setAttribute("class", "d-flex col-sm-6 col-md-4 col-lg-3");
@@ -25,17 +28,25 @@ function createImageCard(data){
 }
 
 async function getSearchResult(input_param){
-    const url = `https://api.unsplash.com/search/photos?page=1&query=${input_param}&client_id=${ACCESS_KEY}`;
+    if(oldData != input_param){
+        oldData = input_param;
+        pageIdx = 1;
+        searchResult.innerHTML = ``;
+    }
+
+    const url = `https://api.unsplash.com/search/photos?page=${pageIdx}&query=${input_param}&client_id=${ACCESS_KEY}`;
     const result = await fetch(url);
     const data = await result.json();
+
     createImageCard(data.results);
 }
 
+let inputValue;
 document.getElementById("seach-btn").addEventListener("click", (event) => {
     event.preventDefault();
-    let input = document.getElementById("input-param");
+    input = document.getElementById("input-param");
+    inputValue = input.value;
     getSearchResult(input.value);
-
     input.value = "";
     document.getElementById("input-param").focus();
 })
@@ -44,12 +55,17 @@ document.getElementById("input-param").addEventListener("keypress", (event) => {
     if(event.key === "Enter"){
         event.preventDefault();
         let input = document.getElementById("input-param");
+        inputValue = input.value;
         getSearchResult(input.value);
-
         input.value = "";
         document.getElementById("input-param").focus();
     }
     
+})
+
+document.getElementById("show_more").addEventListener("click", (event) => {
+    ++pageIdx;
+    getSearchResult(inputValue);
 })
 
 

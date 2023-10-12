@@ -1,6 +1,8 @@
 .effects{
-    height: 50vh; 
+    height: 60vh; 
+    width: 30vw;
     object-fit:cover;
+    overflow: hidden;
 }
 .effects:hover{
     -webkit-filter: brightness(50%);

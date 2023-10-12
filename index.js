@@ -33,8 +33,24 @@ async function getSearchResult(input_param){
 
 document.getElementById("seach-btn").addEventListener("click", (event) => {
     event.preventDefault();
-    let input_param = document.getElementById("input-param").value;
-    getSearchResult(input_param);
+    let input = document.getElementById("input-param");
+    getSearchResult(input.value);
+
+    input.value = "";
+    document.getElementById("input-param").focus();
 })
+
+document.getElementById("input-param").addEventListener("keypress", (event) => {
+    if(event.key === "Enter"){
+        event.preventDefault();
+        let input = document.getElementById("input-param");
+        getSearchResult(input.value);
+
+        input.value = "";
+        document.getElementById("input-param").focus();
+    }
+    
+})
+
 
 getResult();

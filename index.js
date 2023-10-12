@@ -11,19 +11,30 @@ async function getResult(){
 }
 
 function createImageCard(data){
+    searchResult.innerHTML = ``;
     data.forEach((ele, idx) => {
         let cardBody = document.createElement("div");
-        cardBody.setAttribute("class", "d-flex col-sm-6 col-md-4 col-lg-3 mb-4");
+        cardBody.setAttribute("class", "d-flex col-sm-6 col-md-4 col-lg-3");
         cardBody.innerHTML = `
-            <div class="card d-flex">
-                <img class="card-img-top" src="${ele.urls.regular}" style="height: 50vh" alt="Card image cap">
-                <div class="card-body">
-                    <p class="card-text">${ele.alt_description}</p>
-                </div>
-            </div>
+            <a href="${ele.urls.regular}" target="_blank">
+                <img class="w-100 shadow-1-strong rounded mb-4 effects" src="${ele.urls.regular}" alt="Card image cap">
+            </a>
         `;
         searchResult.appendChild(cardBody);
     })
 }
+
+async function getSearchResult(input_param){
+    const url = `https://api.unsplash.com/search/photos?page=1&query=${input_param}&client_id=${ACCESS_KEY}`;
+    const result = await fetch(url);
+    const data = await result.json();
+    createImageCard(data.results);
+}
+
+document.getElementById("seach-btn").addEventListener("click", (event) => {
+    event.preventDefault();
+    let input_param = document.getElementById("input-param").value;
+    getSearchResult(input_param);
+})
 
 getResult();

@@ -1,0 +1,9 @@
+.effects{
+    height: 50vh; 
+    object-fit:cover;
+}
+.effects:hover{
+    -webkit-filter: brightness(50%);
+    -webkit-transition: 0.2s all;
+}
+  

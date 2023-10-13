@@ -27,6 +27,15 @@ function createImageCard(data){
     })
 }
 
+function testing(total){
+    const searchBanner = document.getElementById("result_banner");
+    searchBanner.style.display = 'block';
+    searchBanner.children[0].innerText = `About ${total}+ results found`;
+    setTimeout(() => {
+        searchBanner.style.display = 'none';
+    }, 3000);
+}
+
 async function getSearchResult(input_param){
     if(oldData != input_param){
         oldData = input_param;
@@ -38,16 +47,22 @@ async function getSearchResult(input_param){
     const result = await fetch(url);
     const data = await result.json();
 
+    const {total, total_pages} = data;
+    
+    testing(total);
+
     createImageCard(data.results);
 }
 
 let inputValue;
 document.getElementById("seach-btn").addEventListener("click", (event) => {
     event.preventDefault();
-    input = document.getElementById("input-param");
+    let input = document.getElementById("input-param");
     inputValue = input.value;
-    getSearchResult(input.value);
-    input.value = "";
+    if(inputValue){
+        getSearchResult(input.value);
+        input.value = "";
+    }
     document.getElementById("input-param").focus();
 })
 
@@ -56,11 +71,12 @@ document.getElementById("input-param").addEventListener("keypress", (event) => {
         event.preventDefault();
         let input = document.getElementById("input-param");
         inputValue = input.value;
-        getSearchResult(input.value);
-        input.value = "";
+        if(inputValue){
+            getSearchResult(input.value);
+            input.value = "";
+        }
         document.getElementById("input-param").focus();
     }
-    
 })
 
 document.getElementById("show_more").addEventListener("click", (event) => {

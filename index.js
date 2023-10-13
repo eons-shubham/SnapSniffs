@@ -28,12 +28,20 @@ function createImageCard(data){
 }
 
 function testing(total){
-    const searchBanner = document.getElementById("result_banner");
-    searchBanner.style.display = 'block';
-    searchBanner.children[0].innerText = `About ${total}+ results found`;
-    setTimeout(() => {
-        searchBanner.style.display = 'none';
-    }, 3000);
+
+    if(total === 0){
+        document.getElementById("failed_banner").style.display = "block";
+    }
+    else{
+        const searchBanner = document.getElementById("result_banner");
+        searchBanner.style.display = 'block';
+        searchBanner.children[0].innerText = `About ${total}+ results found`;
+        setTimeout(() => {
+            searchBanner.style.display = 'none';
+        }, 3000);
+    }
+    
+    
 }
 
 async function getSearchResult(input_param){

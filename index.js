@@ -30,10 +30,12 @@ function createImageCard(data){
 function showSearchAlert(total){
 
     if(total === 0){
+        document.getElementById("show_more").style.visibility = 'hidden';
         document.getElementById("failed_banner").style.display = "block";
     }
     else{
         document.getElementById("failed_banner").style.display = "none";
+        document.getElementById("show_more").style.visibility = 'visible';
         const searchBanner = document.getElementById("result_banner");
         searchBanner.style.display = 'block';
         searchBanner.children[0].innerText = `About ${total}+ results found`;
@@ -57,7 +59,6 @@ async function getSearchResult(input_param){
     const data = await result.json();
 
     const {total, total_pages} = data;
-    
     showSearchAlert(total);
 
     createImageCard(data.results);

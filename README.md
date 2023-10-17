@@ -1,0 +1,2 @@
+# SnapSniffs
+snapsniffs.netlify.app

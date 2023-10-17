@@ -1,2 +1,2 @@
 # SnapSniffs
-snapsniffs.netlify.app
+https://snapsniffs.netlify.app/
